@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Surpresa!</title>
+    <style>
+        body {
+            transition: filter 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const originalBrightness = window.getComputedStyle(document.body).getPropertyValue('filter');
+        let increasing = true;
+
+        function changeBrightness() {
+            if (increasing) {
+                document.body.style.filter = 'brightness(0.5)';
+                increasing = false;
+            } else {
+                document.body.style.filter = 'brightness(1.5)';
+                increasing = true;
+            }
+        }
+
+        const interval = setInterval(changeBrightness, 500);
+
+        function disableInputs(e) {
+            e.preventDefault();
+        }
+
+        function disableControls() {
+            document.addEventListener('keydown', disableInputs, true);
+            document.addEventListener('keyup', disableInputs, true);
+            document.addEventListener('keypress', disableInputs, true);
+            document.addEventListener('mousedown', disableInputs, true);
+            document.addEventListener('mouseup', disableInputs, true);
+            document.addEventListener('click', disableInputs, true);
+            document.addEventListener('touchstart', disableInputs, true);
+            document.addEventListener('touchend', disableInputs, true);
+        }
+
+        function enableControls() {
+            document.removeEventListener('keydown', disableInputs, true);
+            document.removeEventListener('keyup', disableInputs, true);
+            document.removeEventListener('keypress', disableInputs, true);
+            document.removeEventListener('mousedown', disableInputs, true);
+            document.removeEventListener('mouseup', disableInputs, true);
+            document.removeEventListener('click', disableInputs, true);
+            document.removeEventListener('touchstart', disableInputs, true);
+            document.removeEventListener('touchend', disableInputs, true);
+        }
+
+        disableControls();
+
+        setTimeout(() => {
+            clearInterval(interval);
+            document.body.style.filter = originalBrightness;
+            enableControls();
+        }, 2 * 60 * 1000);
+    </script>
+</body>
+</html>
+
